@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <textarea [(ngModel)]="taskObj.taskName" id="" class="form-control" cols="3" placeholder="Add a New Task"></textarea>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-3">
+                <input [(ngModel)]="taskObj.dueDate" type="date" class="form-control" id="" placeholder="Due Date">
+            </div>
+            <div class="col-7">
+                <input [(ngModel)]="taskObj.tags" type="text" class="form-control" id="" placeholder="Enter Comma Seperated tags">
+            </div>
+            <div class="col-2">
+                <div class="d-grid">
+                    <button class="btn btn-success btn-block btn-sm" (click)="createNewTask()">Add Task</button>
+                </div> 
+            </div>
+        </div>
+
+        <div class="row pt-1">
+          <div class="col" style="justify-content:space-between;"> 
+            <button class="btn  btn-sm" [ngClass]="filterType == 'tag' ? 'btn-secondary':'btn-secondary' " (click)="setFilter('tag')">FilterByTags</button>
+            <button class="btn  btn-sm"  [ngClass]="filterType == 'ShowAllTags' ? 'btn-secondary':'btn-secondary' " (click)="setFilter('ShowAllTags')">ShowAllTags</button>
+            <button class="btn  btn-sm"  [ngClass]="filterType == 'ShowCompleted' ? 'btn-secondary':'btn-secondary' " (click)="setFilter('ShowCompleted')">ShowCompleted</button>
+          </div>
+        </div>
+
+        <div class="row pt-1" *ngIf="filterType == 'tag'">
+          <div class="col">
+            <button class="btn btn-sm" [ngClass]="selectedTag == tag ? 'btn-success':'btn-danger' " (click)="filterTag(tag)" *ngFor="let tag of tagsList">{{tag}}tagList</button>
+            {{selectedTag}}
+          </div>
+        </div>
+
+
+        <table class="table table-border table-hover">
+
+          <tr style="background-color: gray;">
+            <td style="color: white;">INDEX</td>
+            <td style="color: white;">Task Name</td>
+            <td style="color: white;">DueDate</td>
+            <td style="color: white;">Tags</td>
+          </tr>
+
+
+          <tr *ngFor="let task of taskList;let sr=index">
+
+            
+            
+            
+            <td style="text-align: center;">{{sr+1}}</td>
+
+
+
+            <td>
+              
+                    <div class="row">
+                      
+                            <div class="col-1">
+                              <input (change)="onComplete()" [(ngModel)]="task.isCompleted" type="checkbox" name="#" id="#" >
+                            </div>
+                            
+                            <div class="col-6">
+                              {{task.taskName}}
+                            </div>
+
+                            <div class="col-4 text-end">
+                              <i (click)="onRemove(sr)" class="fa fa-close text-secondary px-3 text-danger ">&times;</i>
+                            </div>
+                    
+                    </div>
+            
+            </td>
+
+
+
+          
+            <td>{{task.dueDate | date: 'dd-mm-yy'}}</td>
+
+
+
+
+            <td class="text-center">
+              <button class="btn btn-warning btn-sm rounded-btn" *ngFor="let tag of getArrayFormSeparateString(task.tags)">{{tag}}</button>
+            </td>
+
+
+
+          </tr>
+        </table>
+        
+              
+    </div>
+    
+</body>
+</html>
+<router-outlet></router-outlet>
+
+<router-outlet></router-outlet>
